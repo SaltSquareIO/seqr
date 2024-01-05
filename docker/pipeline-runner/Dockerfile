@@ -7,4 +7,4 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["aws", "s3", "cp" "s3://test-seqr-bucket/homo_sapiens_vep_99_GRCh38.tar.gz" "/homo_sapiens_vep_99_GRCh38.tar.gz" ]
+ENTRYPOINT ["/bin/sh", "-c", "aws s3 cp s3://test-seqr-bucket/homo_sapiens_vep_99_GRCh38.tar.gz /homo_sapiens_vep_99_GRCh38.tar.gz" ]
