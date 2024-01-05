@@ -6,7 +6,6 @@ BUILD_VERSION=$1
 SAMPLE_TYPE=$2
 INDEX_NAME=$3
 INPUT_FILE_PATH=$4
-ES_HOSTNAME=$5
 
 case ${BUILD_VERSION} in
   38)
@@ -27,7 +26,7 @@ python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
     --reference-ht-path "/seqr-reference-data/${FULL_BUILD_VERSION}/combined_reference_data_grch${BUILD_VERSION}.ht" \
     --clinvar-ht-path "/seqr-reference-data/${FULL_BUILD_VERSION}/clinvar.${FULL_BUILD_VERSION}.ht" \
     --vep-config-json-path "/vep_configs/vep-${FULL_BUILD_VERSION}-loftee.json" \
-    --es-host "${ES_HOSTNAME}" \
+    --es-host "${ELASTICSEARCH_SERVICE_HOSTNAME}" \
     --es-index-min-num-shards 1 \
     --sample-type "${SAMPLE_TYPE}" \
     --es-index "${INDEX_NAME}" \
