@@ -27,6 +27,8 @@ python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
     --clinvar-ht-path "/seqr-reference-data/${FULL_BUILD_VERSION}/clinvar.${FULL_BUILD_VERSION}.ht" \
     --vep-config-json-path "/vep_configs/vep-${FULL_BUILD_VERSION}-loftee.json" \
     --es-host "${ELASTICSEARCH_SERVICE_HOSTNAME}" \
+    --es-port "${ELASTICSEARCH_SERVICE_PORT}" \
+    --es-password "${SEQR_ELASTICSEARCH_PASSWORD}" \
     --es-index-min-num-shards 1 \
     --sample-type "${SAMPLE_TYPE}" \
     --es-index "${INDEX_NAME}" \
