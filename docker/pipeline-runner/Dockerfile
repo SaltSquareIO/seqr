@@ -9,5 +9,7 @@ RUN apt-get update && \
 
 RUN mkdir -p /input_vcfs/data
 
+COPY docker/pipeline-runner/*.sh /usr/local/bin/
+
 ENTRYPOINT ["/bin/sh", "-c"]
 CMD ["aws s3 cp s3://test-seqr-bucket/homo_sapiens_vep_99_GRCh38.tar.gz /input_vcfs/data/GRCh38 && exec \"$@\"", "--"]
