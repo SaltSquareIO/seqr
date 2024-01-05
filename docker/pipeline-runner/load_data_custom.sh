@@ -29,6 +29,7 @@ python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
     --es-host "${ELASTICSEARCH_SERVICE_HOSTNAME}" \
     --es-port "${ELASTICSEARCH_SERVICE_PORT}" \
     --es-password "${SEQR_ELASTICSEARCH_PASSWORD}" \
+    --es-protocol "${ELASTICSEARCH_PROTOCOL}" \
     --es-index-min-num-shards 1 \
     --sample-type "${SAMPLE_TYPE}" \
     --es-index "${INDEX_NAME}" \
