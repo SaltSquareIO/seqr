@@ -23,13 +23,13 @@ SOURCE_FILE=/input_vcfs/${INPUT_FILE_PATH}
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
-    --source-paths  gs://seqr-datasets/GRCh37/1kg/1kg.vcf.gz \
-    --genome-version 37 \
-    --sample-type WES \
-    --dest-path gs://seqr-datasets/GRCh37/1kg/1kg.mt \
-    --reference-ht-path  gs://seqr-reference-data/GRCh37/all_reference_data/combined_reference_data_grch37.ht \
-    --clinvar-ht-path gs://seqr-reference-data/GRCh37/clinvar/clinvar.GRCh37.ht \
+    --source-paths "gs://seqr-datasets/GRCh37/1kg/1kg.vcf.gz" \
+    --genome-version "37" \
+    --sample-type "WES" \
+    --dest-path "gs://seqr-datasets/GRCh37/1kg/1kg.mt" \
+    --reference-ht-path "gs://seqr-reference-data/GRCh37/all_reference_data/combined_reference_data_grch37.ht" \
+    --clinvar-ht-path "gs://seqr-reference-data/GRCh37/clinvar/clinvar.GRCh37.ht" \
     --es-host "${ELASTICSEARCH_SERVICE_HOSTNAME}" \
     --es-port "${ELASTICSEARCH_SERVICE_PORT}" \
-    --es-index es-index \ 
-    --es-index-min-num-shards 3
+    --es-index "es-index-name" \ 
+    --es-index-min-num-shards 1
