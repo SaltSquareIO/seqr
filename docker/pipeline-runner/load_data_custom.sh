@@ -22,7 +22,7 @@ esac
 SOURCE_FILE=/input_vcfs/${INPUT_FILE_PATH}
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
-python3 seqr_loading.py SeqrMTToESTask --local-scheduler \
+python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
     --source-paths  gs://seqr-datasets/GRCh37/1kg/1kg.vcf.gz \
     --genome-version 37 \
     --sample-type WES \
@@ -31,5 +31,5 @@ python3 seqr_loading.py SeqrMTToESTask --local-scheduler \
     --clinvar-ht-path gs://seqr-reference-data/GRCh37/clinvar/clinvar.GRCh37.ht \
     --es-host "${ELASTICSEARCH_SERVICE_HOSTNAME}" \
     --es-port "${ELASTICSEARCH_SERVICE_PORT}" \
-    --es-index new-es-index-name \ 
-    --es-index-min-num-shards 1
+    --es-index es-index \ 
+    --es-index-min-num-shards 3
