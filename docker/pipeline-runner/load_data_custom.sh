@@ -22,7 +22,7 @@ esac
 SOURCE_FILE=/input_vcfs/${INPUT_FILE_PATH}
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
-ls -la
+ls -la /input_vcfs/data/input_vcfs
 
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
     --reference-ht-path "/seqr-reference-data/${FULL_BUILD_VERSION}/combined_reference_data_grch${BUILD_VERSION}.ht" \
