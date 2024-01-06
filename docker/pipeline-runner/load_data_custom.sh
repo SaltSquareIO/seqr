@@ -22,14 +22,17 @@ esac
 SOURCE_FILE=/input_vcfs/${INPUT_FILE_PATH}
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
+ls -la
+
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
-  --source-paths "gs://seqr-datasets/GRCh37/1kg/1kg.vcf.gz" \
-  --genome-version "37" \
-  --sample-type "WES" \
-  --dest-path "gs://seqr-datasets/GRCh37/1kg/1kg.mt" \
-  --reference-ht-path "gs://seqr-reference-data/GRCh37/all_reference_data/combined_reference_data_grch37.ht" \
-  --clinvar-ht-path "gs://seqr-reference-data/GRCh37/clinvar/clinvar.GRCh37.ht" \
-  --es-host "${ELASTICSEARCH_SERVICE_HOSTNAME}" \
-  --es-port "${ELASTICSEARCH_SERVICE_PORT}" \
-  --es-index "es-index-name" \ 
-  --es-index-min-num-shards 1
+    --reference-ht-path "/seqr-reference-data/${FULL_BUILD_VERSION}/combined_reference_data_grch${BUILD_VERSION}.ht" \
+    --clinvar-ht-path "/seqr-reference-data/${FULL_BUILD_VERSION}/clinvar.${FULL_BUILD_VERSION}.ht" \
+    --vep-config-json-path "/vep_configs/vep-${FULL_BUILD_VERSION}-loftee.json" \
+    --es-host "${ELASTICSEARCH_SERVICE_HOSTNAME}" \
+    --es-port "${ELASTICSEARCH_SERVICE_PORT}" \
+    --es-index-min-num-shards 1 \
+    --sample-type "${SAMPLE_TYPE}" \
+    --es-index "${INDEX_NAME}" \
+    --genome-version "${BUILD_VERSION}" \
+    --source-paths "${SOURCE_FILE}" \
+    --dest-path "${DEST_FILE}"
