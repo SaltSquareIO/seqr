@@ -50,7 +50,11 @@ cd "/seqr-reference-data/GRCh${BUILD_VERSION}"
 gsutil -m rsync -r "gs://seqr-reference-data/GRCh${BUILD_VERSION}/all_reference_data/${REF_DATA_HT}" "./${REF_DATA_HT}"
 gsutil -m rsync -r "gs://seqr-reference-data/GRCh${BUILD_VERSION}/clinvar/${CLINVAR_HT}" "./${CLINVAR_HT}"
 
-SOURCE_FILE=/input_vcfs/${INPUT_FILE_PATH}
+aws s3 cp s3://test-seqr-bucket/1kg_30variants.vcf.gz /input_vcfs/1kg_30variants.vcf.gz
+
+aws s3 sync -r /seqr-reference-data s3://test-seqr-bucket
+
+SOURCE_FILE=/input_vcfs/1kg_30variants.vcf.gz
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
