@@ -19,6 +19,7 @@ case ${BUILD_VERSION} in
     exit 1
 esac
 
+mkdir -p /dataset
 mount-s3 test-seqr-bucket /dataset
 
 # download VEP cache
