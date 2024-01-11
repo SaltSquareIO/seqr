@@ -45,9 +45,6 @@ rm "${LOFTEE_FILE}"
 REF_DATA_HT=combined_reference_data_grch${BUILD_VERSION}.ht
 CLINVAR_HT=clinvar.GRCh${BUILD_VERSION}.ht
 
-wget https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.deb
-sudo apt-get install -y ./mount-s3.deb
-
 mount-s3 cp s3://test-seqr-bucket /dataset
 
 aws s3 cp s3://test-seqr-bucket/1kg_30variants.vcf.gz /input_vcfs/1kg_30variants.vcf.gz
