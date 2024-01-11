@@ -44,22 +44,20 @@ rm "${LOFTEE_FILE}"
 # download seqr reference data
 REF_DATA_HT=combined_reference_data_grch${BUILD_VERSION}.ht
 CLINVAR_HT=clinvar.GRCh${BUILD_VERSION}.ht
-mkdir -p "/seqr-reference-data/GRCh${BUILD_VERSION}/${REF_DATA_HT}"
-mkdir -p "/seqr-reference-data/GRCh${BUILD_VERSION}/${CLINVAR_HT}"
-cd "/seqr-reference-data/GRCh${BUILD_VERSION}"
-gsutil -m rsync -r "gs://seqr-reference-data/GRCh${BUILD_VERSION}/all_reference_data/${REF_DATA_HT}" "./${REF_DATA_HT}"
-gsutil -m rsync -r "gs://seqr-reference-data/GRCh${BUILD_VERSION}/clinvar/${CLINVAR_HT}" "./${CLINVAR_HT}"
+
+wget https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.deb
+sudo apt-get install -y ./mount-s3.deb
+
+mount-s3 cp s3://test-seqr-bucket /dataset
 
 aws s3 cp s3://test-seqr-bucket/1kg_30variants.vcf.gz /input_vcfs/1kg_30variants.vcf.gz
-
-aws s3 sync -r /seqr-reference-data s3://test-seqr-bucket
 
 SOURCE_FILE=/input_vcfs/1kg_30variants.vcf.gz
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
-    --reference-ht-path "/seqr-reference-data/${FULL_BUILD_VERSION}/combined_reference_data_grch${BUILD_VERSION}.ht" \
-    --clinvar-ht-path "/seqr-reference-data/${FULL_BUILD_VERSION}/clinvar.${FULL_BUILD_VERSION}.ht" \
+    --reference-ht-path "/dataset/seqr-reference-data/${FULL_BUILD_VERSION}/combined_reference_data_grch${BUILD_VERSION}.ht" \
+    --clinvar-ht-path "/dataset/seqr-reference-data/${FULL_BUILD_VERSION}/clinvar.${FULL_BUILD_VERSION}.ht" \
     --vep-config-json-path "/vep_configs/vep-${FULL_BUILD_VERSION}-loftee.json" \
     --es-host "${ELASTICSEARCH_SERVICE_HOSTNAME}" \
     --es-port "${ELASTICSEARCH_SERVICE_PORT}" \
