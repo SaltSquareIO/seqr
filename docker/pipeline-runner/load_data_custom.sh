@@ -19,17 +19,19 @@ case ${BUILD_VERSION} in
     exit 1
 esac
 
+mount-s3 test-seqr-bucket /dataset
+
 # download VEP cache
 mkdir -p /vep_data/homo_sapiens
 cd /vep_data
 CACHE_FILE=homo_sapiens_vep_99_GRCh${BUILD_VERSION}.tar.gz
-aws s3 cp s3://test-seqr-bucket/homo_sapiens_vep_99_GRCh38.tar.gz homo_sapiens_vep_99_GRCh${BUILD_VERSION}.tar.gz
+ln -s /dataset/${CACHE_FILE} /vep_data/${CACHE_FILE}
 tar xzf "${CACHE_FILE}"
 rm "${CACHE_FILE}"
 
 cd /vep_data/homo_sapiens
 FTP_PATH=$([[ "${BUILD_VERSION}" == "37" ]] && echo '/grch37' || echo '')
-aws s3 cp s3://test-seqr-bucket/Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz
+ln -s /dataset/Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz /vep_data/homo_sapiens/Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz
 gzip -d Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz
 bgzip Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa
 
@@ -45,9 +47,7 @@ rm "${LOFTEE_FILE}"
 REF_DATA_HT=combined_reference_data_grch${BUILD_VERSION}.ht
 CLINVAR_HT=clinvar.GRCh${BUILD_VERSION}.ht
 
-mount-s3 test-seqr-bucket /dataset
-
-aws s3 cp s3://test-seqr-bucket/1kg_30variants.vcf.gz /input_vcfs/1kg_30variants.vcf.gz
+ln -s /dataset/1kg_30variants.vcf.gz /input_vcfs/1kg_30variants.vcf.gz
 
 SOURCE_FILE=/input_vcfs/1kg_30variants.vcf.gz
 DEST_FILE="${SOURCE_FILE/.*/}".mt
