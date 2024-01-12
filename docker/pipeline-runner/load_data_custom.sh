@@ -27,13 +27,14 @@ mount-s3 test-seqr-bucket /dataset
 mkdir -p /vep_data/homo_sapiens
 cd /vep_data
 CACHE_FILE=homo_sapiens_vep_99_GRCh${BUILD_VERSION}.tar.gz
-ln -s /dataset/${CACHE_FILE} /vep_data/${CACHE_FILE}
+
+cp -r /dataset/${CACHE_FILE} /vep_data/${CACHE_FILE}
 tar xzf "${CACHE_FILE}"
 rm "${CACHE_FILE}"
 
 cd /vep_data/homo_sapiens
 FTP_PATH=$([[ "${BUILD_VERSION}" == "37" ]] && echo '/grch37' || echo '')
-ln -s /dataset/Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz /vep_data/homo_sapiens/Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz
+cp -r /dataset/Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz /vep_data/homo_sapiens/Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz
 gzip -d Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz
 bgzip Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa
 
