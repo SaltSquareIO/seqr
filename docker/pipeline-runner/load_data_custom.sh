@@ -19,6 +19,8 @@ case ${BUILD_VERSION} in
     exit 1
 esac
 
+sed -i -e '/127.0.0.1/ s/\(localhost\)/'$(hostname)' \1/' /etc/hosts
+
 cd /
 mkdir -p /dataset
 mount-s3 test-seqr-bucket /dataset
