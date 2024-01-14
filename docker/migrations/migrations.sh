@@ -2,11 +2,11 @@
 
 set -x -e
 
-python -m manage makemigrations 
-python -m manage migrate 
-python -m manage loaddata variant_tag_types // This will fail if it has been run before, and that is okay
-python -m manage loaddata variant_searches // This will fail if it has been run before, and that is okay
-python -m manage reload_saved_variant_json
+python3 -m manage makemigrations 
+python3 -m manage migrate 
+python3 -m manage loaddata variant_tag_types // This will fail if it has been run before, and that is okay
+python3 -m manage loaddata variant_searches // This will fail if it has been run before, and that is okay
+python3 -m manage reload_saved_variant_json
 
 PGPASSWORD="${POSTGRES_PASSWORD}"
 
