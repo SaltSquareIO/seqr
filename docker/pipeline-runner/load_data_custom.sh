@@ -65,5 +65,6 @@ python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
     --sample-type "${SAMPLE_TYPE}" \
     --es-index "${INDEX_NAME}" \
     --genome-version "${BUILD_VERSION}" \
+    --dont-validate \
     --source-paths "${SOURCE_FILE}" \
     --dest-path "${DEST_FILE}"
