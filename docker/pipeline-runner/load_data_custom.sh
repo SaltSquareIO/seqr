@@ -42,7 +42,7 @@ bgzip Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa
 mkdir -p "/vep_data/loftee_data/GRCh${BUILD_VERSION}"
 cd "/vep_data/loftee_data/GRCh${BUILD_VERSION}"
 LOFTEE_FILE=GRCh${BUILD_VERSION}.tar
-gsutil cp "gs://seqr-reference-data/vep_data/loftee-beta/${LOFTEE_FILE}" .
+cp -r /dataset/loftee-beta/${LOFTEE_FILE} /vep_data/loftee_data/GRCh${BUILD_VERSION}/${LOFTEE_FILE}
 tar xf "${LOFTEE_FILE}"
 rm "${LOFTEE_FILE}"
 
