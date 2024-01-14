@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -x -e
-
+pip3 install -r requirements.txt
 python3 -m manage makemigrations 
 python3 -m manage migrate 
 python3 -m manage loaddata variant_tag_types // This will fail if it has been run before, and that is okay
