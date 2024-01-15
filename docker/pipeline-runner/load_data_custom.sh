@@ -76,5 +76,5 @@ python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
     --genome-version "${BUILD_VERSION}" \
     --dont-validate \
     --source-paths "${SOURCE_FILE}" \
-    --dest-path "${DEST_FILE}"
+    --dest-path "${DEST_FILE}" \
     --grch38-to-grch37-ref-chain "/dataset/grch38_to_grch37.over.chain.gz"
