@@ -60,8 +60,9 @@ REF_DATA_HT=combined_reference_data_grch${BUILD_VERSION}.ht
 CLINVAR_HT=clinvar.GRCh${BUILD_VERSION}.ht
 
 cp -r /dataset/1kg_30variants.vcf.gz /input_vcfs/1kg_30variants.vcf.gz
+gzip -d /input_vcfs/1kg_30variants.vcf.gz
 
-SOURCE_FILE=/input_vcfs/1kg_30variants.vcf.gz
+SOURCE_FILE=/input_vcfs/1kg_30variants.vcf
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
