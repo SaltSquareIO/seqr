@@ -19,22 +19,6 @@ case ${BUILD_VERSION} in
     exit 1
 esac
 
-ifconfig # prints full IP info
-echo "Detecting 'eth1' interface..."
-DETECTED_IP=$(ifconfig -a | grep -A2 eth1 | grep inet | awk '{print $2}' | sed 's#/.*##g' | grep "\.")
-if [[ -z $DETECTED_IP ]]; then
-    echo "Detecting 'eth0' interface ('eth1' not found)..."
-    DETECTED_IP=$(ifconfig -a | grep -A2 eth0 | grep inet | awk '{print $2}' | sed 's#/.*##g' | grep "\." | head -1)
-fi
-DETECTED_HOSTNAME=$(hostname)
-echo -e "\n\nDETECTED_IP=$DETECTED_IP\nDETECTED_HOSTNAME=$DETECTED_HOSTNAME\n\n"
-# Note: newer OS versions us `ip` instead of `ifconfig`
-
-# Echo for debugging. You can comment/delete the 1st and 3rd lines once everything is working.
-echo -e "Current file contents:\n $(cat /etc/hosts)"
-echo "$DETECTED_IP $DETECTED_HOSTNAME" >> /etc/hosts
-echo -e "\n\n\nUpdated file contents:\n $(cat /etc/hosts)"
-
 cd /
 mkdir -p /dataset
 mount-s3 test-seqr-bucket /dataset
