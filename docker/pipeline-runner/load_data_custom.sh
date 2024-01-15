@@ -19,6 +19,14 @@ case ${BUILD_VERSION} in
     exit 1
 esac
 
+export HOST=$(curl -s 169.254.169.254/latest/meta-data/local-hostname)
+export LOCAL_IP=$(curl -s 169.254.169.254/latest/meta-data/local-ipv4)
+
+cat /etc/hosts
+echo `ec2-metadata -o|cut -d: -f2` " " `ec2-metadata -h |cut -d: -f2` >> /etc/hosts
+cat /etc/hosts
+echo $LOCAL_IP
+
 cd /
 mkdir -p /dataset
 mount-s3 test-seqr-bucket /dataset
