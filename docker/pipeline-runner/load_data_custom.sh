@@ -24,8 +24,8 @@ export LOCAL_IP=$(curl -s 169.254.169.254/latest/meta-data/local-ipv4)
 
 cat /etc/hosts
 echo "localhost $LOCAL_IP" >> /etc/hosts
+echo "$HOST 127.0.0.1" >> /etc/hosts
 cat /etc/hosts
-echo $LOCAL_IP
 
 cd /
 mkdir -p /dataset
