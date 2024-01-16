@@ -28,13 +28,15 @@ export SPARK_LOCAL_IP="127.0.0.1"
 echo "localhost $LOCAL_IP" >> /etc/hosts
 cat /etc/hosts
 
-
+cp -r /dataset/1kg_30variants.vcf.gz /input_vcfs/1kg_30variants.vcf.gz
+gzip -d /input_vcfs/1kg_30variants.vcf.gz
+bgzip -f /input_vcfs/1kg_30variants.vcf
 
 SOURCE_FILE=/input_vcfs/1kg_30variants.vcf.bgz
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
-    --source-paths  gs://seqr-datasets/GRCh37/1kg/1kg.vcf.gz \
+    --source-paths  "${SOURCE_FILE}" \
     --genome-version 37 \
     --sample-type WES \
     --dest-path "${DEST_FILE}" \
