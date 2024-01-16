@@ -32,11 +32,9 @@ cd /
 mkdir -p /dataset
 mount-s3 test-seqr-bucket /dataset
 
-cp -r /dataset/1kg_30variants.vcf.gz /input_vcfs/1kg_30variants.vcf.gz
-gzip -d /input_vcfs/1kg_30variants.vcf.gz
-bgzip -f /input_vcfs/1kg_30variants.vcf
+cp -r /dataset/1kg.vcf /input_vcfs/1kg_30variants.vcf
 
-SOURCE_FILE=/input_vcfs/1kg_30variants.vcf.bgz
+SOURCE_FILE=/input_vcfs/1kg_30variants.vcf
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
