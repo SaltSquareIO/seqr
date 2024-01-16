@@ -33,7 +33,7 @@ cat /etc/hosts
 SOURCE_FILE=/input_vcfs/1kg_30variants.vcf.bgz
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
-python3 seqr_loading SeqrMTToESTask --local-scheduler \
+python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
     --source-paths  gs://seqr-datasets/GRCh37/1kg/1kg.vcf.gz \
     --genome-version 37 \
     --sample-type WES \
