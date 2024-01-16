@@ -28,54 +28,18 @@ export SPARK_LOCAL_IP="127.0.0.1"
 echo "localhost $LOCAL_IP" >> /etc/hosts
 cat /etc/hosts
 
-cd /
-mkdir -p /dataset
-mount-s3 test-seqr-bucket /dataset
 
-# download VEP cache
-mkdir -p /vep_data/homo_sapiens
-cd /vep_data
-CACHE_FILE=homo_sapiens_vep_99_GRCh${BUILD_VERSION}.tar.gz
-
-cp -r /dataset/${CACHE_FILE} /vep_data/${CACHE_FILE}
-tar xzf "${CACHE_FILE}"
-rm "${CACHE_FILE}"
-
-cd /vep_data/homo_sapiens
-FTP_PATH=$([[ "${BUILD_VERSION}" == "37" ]] && echo '/grch37' || echo '')
-cp -r /dataset/Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz /vep_data/homo_sapiens/Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz
-gzip -d Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa.gz
-bgzip Homo_sapiens.GRCh${BUILD_VERSION}.dna.primary_assembly.fa
-
-# download loftee reference data
-mkdir -p "/vep_data/loftee_data/GRCh${BUILD_VERSION}"
-cd "/vep_data/loftee_data/GRCh${BUILD_VERSION}"
-LOFTEE_FILE=GRCh${BUILD_VERSION}.tar
-cp -r /dataset/loftee-beta/${LOFTEE_FILE} /vep_data/loftee_data/GRCh${BUILD_VERSION}/${LOFTEE_FILE}
-tar xf "${LOFTEE_FILE}"
-rm "${LOFTEE_FILE}"
-
-# download seqr reference data
-REF_DATA_HT=combined_reference_data_grch${BUILD_VERSION}.ht
-CLINVAR_HT=clinvar.GRCh${BUILD_VERSION}.ht
-
-cp -r /dataset/1kg_30variants.vcf.gz /input_vcfs/1kg_30variants.vcf.gz
-gzip -d /input_vcfs/1kg_30variants.vcf.gz
-bgzip -f /input_vcfs/1kg_30variants.vcf
 
 SOURCE_FILE=/input_vcfs/1kg_30variants.vcf.bgz
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
-python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
-    --reference-ht-path "/dataset/seqr-reference-data/${FULL_BUILD_VERSION}/combined_reference_data_grch${BUILD_VERSION}.ht" \
-    --clinvar-ht-path "/dataset/seqr-reference-data/${FULL_BUILD_VERSION}/clinvar.${FULL_BUILD_VERSION}.ht" \
-    --vep-config-json-path "/vep_configs/vep-${FULL_BUILD_VERSION}-loftee.json" \
+python3 seqr_loading.py SeqrMTToESTask --local-scheduler \
+    --source-paths  gs://seqr-datasets/GRCh37/1kg/1kg.vcf.gz \
+    --genome-version 37 \
+    --sample-type WES \
+    --dest-path "${DEST_FILE}" \
+    --reference-ht-path  gs://seqr-reference-data/GRCh37/all_reference_data/combined_reference_data_grch37.ht \
+    --clinvar-ht-path gs://seqr-reference-data/GRCh37/clinvar/clinvar.GRCh37.ht \
     --es-host "${ELASTICSEARCH_SERVICE_HOSTNAME}" \
     --es-port "${ELASTICSEARCH_SERVICE_PORT}" \
-    --es-index-min-num-shards 1 \
-    --sample-type "${SAMPLE_TYPE}" \
-    --es-index "${INDEX_NAME}" \
-    --genome-version "${BUILD_VERSION}" \
-    --source-paths "${SOURCE_FILE}" \
-    --dest-path "${DEST_FILE}" \
-    --grch38-to-grch37-ref-chain "/dataset/grch38_to_grch37.over.chain.gz"
+    --es-index-min-num-shards 3
