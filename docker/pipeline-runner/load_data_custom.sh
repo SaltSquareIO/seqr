@@ -28,6 +28,10 @@ export SPARK_LOCAL_IP="127.0.0.1"
 echo "localhost $LOCAL_IP" >> /etc/hosts
 cat /etc/hosts
 
+cd /
+mkdir -p /dataset
+mount-s3 test-seqr-bucket /dataset
+
 cp -r /dataset/1kg_30variants.vcf.gz /input_vcfs/1kg_30variants.vcf.gz
 gzip -d /input_vcfs/1kg_30variants.vcf.gz
 bgzip -f /input_vcfs/1kg_30variants.vcf
