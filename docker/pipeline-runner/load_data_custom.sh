@@ -34,11 +34,11 @@ mount-s3 test-seqr-bucket /dataset
 
 # download VEP cache
 mkdir -p /vep_data/homo_sapiens
-cd /vep_data
-CACHE_FILE=homo_sapiens_vep_99_GRCh${BUILD_VERSION}.tar.gz
-cp -r /dataset/${CACHE_FILE} /vep_data/${CACHE_FILE}
-tar xzf "${CACHE_FILE}"
-rm "${CACHE_FILE}"
+#cd /vep_data
+#CACHE_FILE=homo_sapiens_vep_99_GRCh${BUILD_VERSION}.tar.gz
+cp -r /dataset/homo_sapiens /vep_data/homo_sapiens
+#tar xzf "${CACHE_FILE}"
+#rm "${CACHE_FILE}"
 
 cd /vep_data/homo_sapiens
 FTP_PATH=$([[ "${BUILD_VERSION}" == "37" ]] && echo '/grch37' || echo '')
