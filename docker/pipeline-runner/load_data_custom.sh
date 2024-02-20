@@ -65,8 +65,8 @@ SOURCE_FILE=/input_vcfs/1kg_30variants.vcf.gz
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
-    --reference-ht-path "/dataset/${FULL_BUILD_VERSION}/combined_reference_data_grch${BUILD_VERSION}.ht" \
-    --clinvar-ht-path "/dataset/${FULL_BUILD_VERSION}/clinvar.${FULL_BUILD_VERSION}.ht" \
+    --reference-ht-path "/dataset/combined_reference_data_grch${BUILD_VERSION}.ht" \
+    --clinvar-ht-path "/dataset/clinvar.${FULL_BUILD_VERSION}.ht" \
     --vep-config-json-path "/vep_configs/vep-${FULL_BUILD_VERSION}-loftee.json" \
     --es-host "${ELASTICSEARCH_SERVICE_HOSTNAME}" \
     --es-port "${ELASTICSEARCH_SERVICE_PORT}" \
