@@ -2,11 +2,6 @@
 
 set -x -e
 
-BUILD_VERSION=$1
-SAMPLE_TYPE=$2
-INDEX_NAME=$3
-INPUT_FILE_PATH=$4
-
 case ${BUILD_VERSION} in
   38)
     FULL_BUILD_VERSION=GRCh38
@@ -30,7 +25,7 @@ echo "spark.es.nodes.wan.only true" >> /usr/local/lib/python3.10/site-packages/p
 
 cd /
 mkdir -p /dataset
-mount-s3 test-seqr-bucket /dataset
+mount-s3 ${BUCKET_NAME} /dataset
 
 mkdir -p /vep_data/homo_sapiens
 cd /vep_data
@@ -60,7 +55,7 @@ CLINVAR_HT=clinvar.GRCh${BUILD_VERSION}.ht
 #cp -r /dataset/1kg.vcf /input_vcfs/1kg_30variants.vcf
 #bgzip -f /input_vcfs/1kg_30variants.vcf
 
-SOURCE_FILE=/dataset/IRCM2-Chr1.vcf.gz
+SOURCE_FILE=${VCF_FILE}
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
