@@ -57,10 +57,10 @@ rm "${LOFTEE_FILE}"
 REF_DATA_HT=combined_reference_data_grch${BUILD_VERSION}.ht
 CLINVAR_HT=clinvar.GRCh${BUILD_VERSION}.ht
 
-cp -r /dataset/1kg.vcf /input_vcfs/1kg_30variants.vcf
-bgzip -f /input_vcfs/1kg_30variants.vcf
+#cp -r /dataset/1kg.vcf /input_vcfs/1kg_30variants.vcf
+#bgzip -f /input_vcfs/1kg_30variants.vcf
 
-SOURCE_FILE=/input_vcfs/1kg_30variants.vcf.gz
+SOURCE_FILE=/dataset/IRCM2-Chr1.vcf.gz
 DEST_FILE="${SOURCE_FILE/.*/}".mt
 
 python3 -m seqr_loading SeqrMTToESTask --local-scheduler \
